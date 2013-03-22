@@ -31,7 +31,7 @@ def xkcd_line(ax, x, y, transform, mag=1.0, f1=30, f2=0.05, f3=15):
     trans = ax.transScale+ax.transLimits
 
     # transform to axis coordinate systems
-    if (transform != ax.transAxes):
+    if (transform != ax.transAxes) and (transform != 'none'):
         for i in range(len(x)):
             [[x_scaled[i], y_scaled[i]]] = trans.transform(numpy.array([(x[i], y[i])]))
 
@@ -63,7 +63,7 @@ def xkcd_line(ax, x, y, transform, mag=1.0, f1=30, f2=0.05, f3=15):
     y_int[1:-1] += response * dx / dist
 
     # retransform to original coordinate system
-    if (transform != ax.transAxes):
+    if (transform != ax.transAxes) and (transform != 'none'):
         for i in range(len(x_int)):
             [[x_int[i], y_int[i]]] = trans.inverted().transform(numpy.array([(x_int[i], y_int[i])]))
     
@@ -174,7 +174,7 @@ def XKCDify(ax, mag=1.0,
 
     # Make all lines wiggly
     Nlines = len(ax.lines)
-    lines = [xaxis, yaxis] + [ax.lines.pop(0) for i in range(Nlines)] + ticks
+    lines = [xaxis, yaxis] + ticks + [ax.lines.pop(0) for i in range(Nlines)] 
 
     for line in lines:
         x, y = line.get_data()
@@ -235,7 +235,7 @@ def XKCDify(ax, mag=1.0,
         for child in leg.get_children():
             if isinstance(child, pylab.Line2D):
                 x, y = child.get_data()
-                child.set_data(xkcd_line(ax, x, y, transform=ax.transAxes, mag=10, f1=100, f2=0.001))
+                child.set_data(xkcd_line(ax, x, y, 'none', mag, f1, f2, f3));
                 child.set_linewidth(2 * child.get_linewidth())
             if isinstance(child, pylab.Text):
                 child.set_fontproperties(prop)
