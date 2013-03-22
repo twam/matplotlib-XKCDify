@@ -143,7 +143,7 @@ def XKCDify(ax, mag=1.0,
         text = ax.get_xticklabels()[i].get_text();
 
         if text == '':
-            text = (ax.yaxis.get_major_formatter())(tick)
+            text = ax.xaxis.get_major_formatter().format_data_short(tick).strip()
 
         transform = ax.transAxes;
 
@@ -153,14 +153,14 @@ def XKCDify(ax, mag=1.0,
         line = pylab.Line2D(x_int, y_int, linestyle='-', color='k', solid_capstyle='round', transform=transform)
         ticks.append(line)       
         if (tick_x <= 1) and (tick_x >= 0):
-            ax.text(tick_x, tick_y-numpy.random.normal(0.015, 0.001, 1)[0], text, fontsize=14, ha='center', va='top', rotation=-3+numpy.random.normal(1)*6, transform=ax.transAxes)
+            ax.text(tick_x, tick_y-numpy.random.normal(0.025, 0.001, 1)[0], text, fontsize=14, ha='center', va='top', rotation=-3+numpy.random.normal(1)*6, transform=ax.transAxes)
 
     for i in range(len(ax.get_yticks())):
         tick = ax.get_yticks()[i]
         text = ax.get_yticklabels()[i].get_text();
 
         if text == '':
-            text = (ax.yaxis.get_major_formatter())(tick)
+            text = ax.yaxis.get_major_formatter().format_data_short(tick).strip()
 
         transform = ax.transAxes;
 
@@ -170,7 +170,7 @@ def XKCDify(ax, mag=1.0,
         line = pylab.Line2D(x_int, y_int, linestyle='-', color='k', solid_capstyle='round', transform=transform)
         ticks.append(line)
         if (tick_y <= 1) and (tick_y >= 0):
-            ax.text(tick_x-numpy.random.normal(0.015, 0.001, 1)[0], tick_y, text, fontsize=14, ha='right', va='center', rotation=-3+numpy.random.normal(1)*6, transform=ax.transAxes)
+            ax.text(tick_x-numpy.random.normal(0.025, 0.001, 1)[0], tick_y, text, fontsize=14, ha='right', va='center', rotation=-3+numpy.random.normal(1)*6, transform=ax.transAxes)
 
     # Make all lines wiggly
     Nlines = len(ax.lines)
